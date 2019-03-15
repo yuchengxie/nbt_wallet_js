@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+	<div>
+		<div class="nav">
+			<ul>
+				<li id='btnImport'>导入钱包</li>
+				<li>创建钱包</li>
+			</ul>
+		</div>
+
+		<table class="register">
+			<tr>
+				<td>手机:</td>
+				<td><input type="phone" id='phone' value="18800000000"><br></td>
+			</tr>
+			<tr>
+				<td>验证码:</td>
+				<td><input type="text" id='phonecode' value="123456"><br></td>
+			</tr>
+			<tr>
+				<td>密码</td>
+				<td><input type="password" id='pwd' value="123456"><br></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><button class="create" id='btnCreate'>创建</button></td>
+			</tr>
+		</table>
+
+		<!-- 弹出框 -->
+		<div class="modal" id='divModal'>
+			<div class="modal_content" id='modalContent'>
+				<input type="text" id='address_input' placeholder="请输入钱包地址"
+					value="a730053b48be5d1e88a110530998a0bf2afc625b92ac777bd98d9b37f15f513f">
+				<button id='btnSave'>保存</button>
+			</div>
+		</div>
+
+
+	</div>
+</body>
+
+</html>
+<script src="./js/render/_index.js"></script>
+<script src="./js/render/render.js"></script>
