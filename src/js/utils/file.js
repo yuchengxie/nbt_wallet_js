@@ -1,30 +1,25 @@
-const AES = require('./aes')
-const bip32 = require('bip32')
 const fs = require('fs');
 const path = require('path');
 const fu = require('./fileutils');
-
 const secret=require('./secret')
 
 let default_fp = path.join(__dirname, '../../../data/');
 let fp = path.join(__dirname, '../../../data/account/');
-let filename='t.cfg';
+let filename='ttt.cfg';
 
 fu.mkdirs(fp, function () {
     console.log('文件目录创建ok');
 })
 
 function create(data) {
-    console.log(data)
-    let prvKey=secret.createPrvKeyWithStr(data);
-    // let prvKey = createAESEncryptFromStr(value)
+    let aes_prvKey=secret.createWallet(data);
     var jsonData = {
         'encrypted': true,
         "type": "default",
         "vcn": 0,
         "coin_type": "00",
         "testnet": false,
-        "prvkey": prvKey,
+        "prvkey": aes_prvKey,
         "pubkey": null
     }
     var data = JSON.stringify(jsonData);
@@ -34,11 +29,7 @@ function create(data) {
 }
 
 function save(pvk) {
-    let aes_prvKey=secret.savePrvKeyWithStr(pvk)
-    // let prvKey = saveAESEncryptFromStr(pvk)
-    console.log('aes_prvKey:'+aes_prvKey);
-    // bip32.fromPrivateKey()
-    // console.log(prvKey);
+    let aes_prvKey=secret.saveWallet(pvk)
     var jsonData = {
         'encrypted': true,
         "type": "default",
@@ -57,15 +48,13 @@ function save(pvk) {
 function saveToFile(data, filename) {
     fs.writeFile(fp + filename, data, (err) => {
         if (err) {
-            console.log(err);
-            return
+            throw Error('err write');
         }
     })
     //default文件夹
     fs.writeFile(default_fp + 'default.cfg', data, (err) => {
         if (err) {
-            console.log(err);
-            return
+            throw Error('err write');
         }
     })
 }

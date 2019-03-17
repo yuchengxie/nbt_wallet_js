@@ -2,7 +2,6 @@
  * Created by xieyucheng on 19/3/12 
  * 创建文件夹帮助类 
  */
-
 var fs = require("fs");
 var path = require("path");
 
@@ -12,7 +11,6 @@ function mkdirs(dirname, callback) {
         if (exists) {
             callback();
         } else {
-            //console.log(path.dirname(dirname));  
             mkdirs(path.dirname(dirname), function () {
                 fs.mkdir(dirname, callback);
             });

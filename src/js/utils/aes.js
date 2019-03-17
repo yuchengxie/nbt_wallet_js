@@ -1,7 +1,5 @@
 const CryptoJS = require('crypto-js');
 
-
-
 const key = CryptoJS.enc.Utf8.parse("111000000000"); //十六位十六进制数作为秘钥
 const iv = CryptoJS.enc.Utf8.parse('0000000000000000'); //十六位十六进制数作为秘钥偏移量
 //解密
@@ -19,9 +17,5 @@ function Encrypt(word) {
     return encrypted.ciphertext.toString();
 }
 
-// export default {
-// 	Decrypt ,
-// 	Encrypt
-// }
 exports.Decrypt=Decrypt
 exports.Encrypt=Encrypt
