@@ -10,11 +10,10 @@ let phonecode=document.getElementById('phonecode')
 let btnCreate=document.getElementById('btnCreate')
 
 btnCreate.addEventListener('click',function(){
-    let value=phone.value+phonecode.value;
-    var data={
-        filename:'test.cfg',
-        value:value
-    }
+    let data=phone.value+phonecode.value;
+    // var data={
+    //     value:value
+    // }
     ipcRenderer.send('create',data);
 })
 
@@ -31,7 +30,6 @@ modalContent.addEventListener('click', function (e) {
 btnSave.addEventListener('click', function () {
     divModal.style.display = 'none';
     let address = address_input.value;
-    console.log(address);
     ipcRenderer.send('save',address);
 })
 
