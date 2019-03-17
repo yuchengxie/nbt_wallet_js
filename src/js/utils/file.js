@@ -12,20 +12,21 @@ fu.mkdirs(fp, function () {
 })
 
 function create(data) {
-    let aes_prvKey=secret.createWallet(data);
+    let res=secret.createWallet(data);
     var jsonData = {
         'encrypted': true,
         "type": "default",
         "vcn": 0,
         "coin_type": "00",
         "testnet": false,
-        "prvkey": aes_prvKey,
+        "prvkey": res.encrypt_prvKey,
         "pubkey": null
     }
     var data = JSON.stringify(jsonData);
     fu.mkdirs(fp, function () {
         saveToFile(data, filename)
     })
+    return res.addr;
 }
 
 function save(pvk) {

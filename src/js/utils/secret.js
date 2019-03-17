@@ -36,8 +36,12 @@ function createWallet(str) {
     let encrypt_prvKey = AES.Encrypt(keyWIF);
     console.log("> encrypt_prvKey:", encrypt_prvKey, encrypt_prvKey.length);
     //生成NBC地址
-    genAddr();
-    return encrypt_prvKey;
+    let addr=genAddr();
+    let data={
+        encrypt_prvKey:encrypt_prvKey,
+        addr:addr
+    }
+    return data;
 }
 
 //根据私钥生成公钥
@@ -61,6 +65,7 @@ function genAddr() {
     let result = Buffer.concat([v, checksum]);
     let addr = bs58.encode(result);
     console.log('> addr:', addr, addr.length);
+    return addr;
 }
 
 // 对私钥编码:
