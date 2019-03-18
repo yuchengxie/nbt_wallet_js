@@ -102,6 +102,7 @@ input {
 .create:hover{
 	background: darkcyan;
 }
+
 #addr {
-	font-size: 20px;
+	font-size: 18px;
 }

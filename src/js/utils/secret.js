@@ -7,6 +7,7 @@ const wif = require('wif');
 const AES = require('./aes')
 
 let BIP32;
+const key='123!@#abc';
 
 function saveWallet(prvKeyStr) {
     if (prvKeyStr.length != 64) throw Error('长度须为64');
@@ -15,7 +16,7 @@ function saveWallet(prvKeyStr) {
     let keyWIF = toWIF(prvKeyStr);
     console.log('> keyWIF:', keyWIF, keyWIF.length);
     //加密私钥
-    let encrypt_prvKey=AES.Encrypt(keyWIF)
+    let encrypt_prvKey=AES.Encrypt(keyWIF,key);
     console.log('save encrypt_prvKey',encrypt_prvKey,encrypt_prvKey.length);
     //生成NBC地址
     genAddr();
@@ -33,8 +34,10 @@ function createWallet(str) {
     let keyWIF = toWIF(prvKeyStr);
     console.log('> keyWIF:', keyWIF, keyWIF.length);
     //给私钥作AES加密
-    let encrypt_prvKey = AES.Encrypt(keyWIF);
+    let encrypt_prvKey = AES.Encrypt(keyWIF,key);
     console.log("> encrypt_prvKey:", encrypt_prvKey, encrypt_prvKey.length);
+    let decrypt_prvKey = AES.Decrypt(encrypt_prvKey,key);
+    console.log("> decrypt_prvKey:", decrypt_prvKey, decrypt_prvKey.length);
     //生成NBC地址
     let addr=genAddr();
     let data={

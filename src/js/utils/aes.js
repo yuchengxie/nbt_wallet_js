@@ -1,21 +1,39 @@
-const CryptoJS = require('crypto-js');
+const CryptoJS = require('crypto-js')
 
-const key = CryptoJS.enc.Utf8.parse("111000000000"); //十六位十六进制数作为秘钥
-const iv = CryptoJS.enc.Utf8.parse('0000000000000000'); //十六位十六进制数作为秘钥偏移量
-//解密
-function Decrypt(word) {
-    let encryptedHexStr = CryptoJS.enc.Hex.parse(word);
-    let srcs = CryptoJS.enc.Base64.stringify(encryptedHexStr);
-    let decrypt = CryptoJS.AES.decrypt(srcs, key, { iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 });
-    let decryptedStr = decrypt.toString(CryptoJS.enc.Utf8);
-    return decryptedStr.toString();
-}
-//加密
-function Encrypt(word) {
-    let srcs = CryptoJS.enc.Utf8.parse(word);
-    let encrypted = CryptoJS.AES.encrypt(srcs, key, { iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 });
-    return encrypted.ciphertext.toString();
+const keySize = 128;
+
+const CipherOption = {
+    mode: CryptoJS.mode.ECB,
+    padding: CryptoJS.pad.Pkcs7,
 }
 
-exports.Decrypt=Decrypt
+const fillKey = (key) => {
+    const filledKey = Buffer.alloc(keySize / 8);
+    const keys = Buffer.from(key);
+    if (keys.length < filledKey.length) {
+        keys.map((b, i) => {
+            filledKey[i] = b;
+        });
+    }
+    return filledKey;
+}
+
+const Encrypt = (data, key) => {
+    key = CryptoJS.enc.Utf8.parse(fillKey(key));
+    const cipher = CryptoJS.AES.encrypt(data, key, CipherOption);
+    const base64Cipher = cipher.ciphertext.toString(CryptoJS.enc.Base64);
+    const resultCipher = base64Cipher.replace(/\+/g, '-').replace(/\//g, '_');
+    return resultCipher;
+}
+
+const Decrypt = (encrypted, key) => {
+    key = CryptoJS.enc.Utf8.parse(fillKey(key));
+    const restoreBase64 = encrypted.replace(/\-/g, '+').replace(/_/g, '/');
+    const decipher = CryptoJS.AES.decrypt(restoreBase64, key, CipherOption);
+    const resultDecipher = CryptoJS.enc.Utf8.stringify(decipher);
+    return resultDecipher;
+}
+
 exports.Encrypt=Encrypt
+exports.Decrypt=Decrypt
+
